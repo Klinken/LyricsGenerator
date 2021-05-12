@@ -15,6 +15,10 @@ namespace LyricsGenerator
 
         static void Main(string[] args)
         {
+            // Variables
+
+            int count = 0;
+
             // DATA
             List<Song> songs = new List<Song>
             {
@@ -181,19 +185,32 @@ namespace LyricsGenerator
                         ));
             }
 
-            void getSelection(int choice)
+            void getSelection()
             {
-                int placeInArr = choice - 1;
+                string selection = Console.ReadLine();
 
-                string title = songs[placeInArr].Title;
+                try
+                {
+                    int song = Convert.ToInt32(selection) - 1;
 
-                string artist = songs[placeInArr].Artist;
+                    string title = songs[song].Title;
 
-                Console.WriteLine($"\nYou chose {title} by {artist}. Enjoy:");
+                    string artist = songs[song].Artist;
 
-                Console.WriteLine($"\n------ {title} by {artist} ------");
+                    Console.WriteLine($"\nYou chose {title} by {artist}. Enjoy:");
 
-                Console.WriteLine(songs[placeInArr].Lyrics);
+                    Console.WriteLine($"\n------ {title} by {artist} ------");
+
+                    Console.WriteLine(songs[song].Lyrics);
+
+                }
+                catch (Exception)
+                {
+                    Console.Write("There's a problem with your input, try again: ");
+
+                    getSelection();
+
+                }
 
             }
 
@@ -201,29 +218,31 @@ namespace LyricsGenerator
 
             void run()
             {
-                int count = 0;
 
-                Console.WriteLine($"{(count == 0 ? "Welcome to the lyrics generator, please select a" : "Please select another")} song from this top {songs.Count}:\n");
+                Console.WriteLine($"" +
+                    $"{(count == 0 ? "Welcome to the lyrics generator, please select a" : "\nPlease select another")} " +
+                    $"song from this top {songs.Count}:\n");
 
                 displaySongs();
 
                 Console.Write("\nwhich song do you wish to sing: ");
 
-                getSelection(Convert.ToInt32(Console.ReadLine()));
+                getSelection();
 
                 count++;
 
-                Console.Write("Want to sing another song? write y/yes: ");
+                Console.Write("\nWant to sing another song? write y/yes: ");
 
                 string runAgain = Console.ReadLine();
 
-                if (runAgain == "y" || runAgain == "yes")
+                if (runAgain == "y" ||
+                    runAgain == "yes")
                 {
                     run();
                 }
                 else
                 {
-                    Console.WriteLine("Thank you, for singing along!");
+                    Console.WriteLine("\nThank you, for singing along!");
                 }
 
             }
